@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday My Love! 💕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Envelope Splash Screen */
+        .envelope-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+
+        .envelope-screen.hide {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .envelope {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            cursor: pointer;
+            transform: scale(1);
+            transition: transform 0.3s ease;
+        }
+
+        .envelope:hover {
+            transform: scale(1.05);
+        }
+
+        .envelope-base {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 140px;
+            background: #f4f4f4;
+            border: 3px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 153px solid transparent;
+            border-right: 153px solid transparent;
+            border-top: 100px solid #e74c3c;
+            transform-origin: bottom;
+            transition: transform 0.8s ease;
+            z-index: 2;
+        }
+
+        .envelope.open .envelope-flap {
+            transform: translateX(-50%) rotateX(180deg);
+        }
+
+        .envelope-flap::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: -153px;
+            width: 0;
+            height: 0;
+            border-left: 153px solid transparent;
+            border-right: 153px solid transparent;
+            border-bottom: 100px solid #c0392b;
+        }
+
+        .envelope-letter {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            width: calc(100% - 40px);
+            height: calc(100% - 40px);
+            background: white;
+            border-radius: 3px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+            transform: translateY(0);
+            transition: transform 0.8s ease 0.3s;
+            z-index: 1;
+        }
+
+        .envelope.open .envelope-letter {
+            transform: translateY(-50px);
+        }
+
+        .envelope-letter h2 {
+            color: #e74c3c;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        .envelope-letter p {
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .click-instruction {
+            position: absolute;
+            bottom: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 1.1em;
+            animation: bounce 2s infinite;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* Main Content */
+        .main-content {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1s ease 1s, visibility 1s ease 1s;
+        }
+
+        .main-content.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 600px;
+            position: relative;
+            animation: cardFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes cardFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .title {
+            font-size: 3.5em;
+            color: #e74c3c;
+            margin-bottom: 20px;
+            animation: bounceTitle 2s infinite;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes bounceTitle {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .subtitle {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeInUp 2s ease 1s forwards;
+        }
+
+        .message {
+            font-size: 1.2em;
+            color: #34495e;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeInUp 2s ease 2s forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hearts {
+            font-size: 2em;
+            margin: 20px 0;
+            opacity: 0;
+            animation: fadeInUp 2s ease 3s forwards;
+        }
+
+        .heart {
+            color: #e74c3c;
+            display: inline-block;
+            animation: heartbeat 1.5s ease-in-out infinite;
+            margin: 0 10px;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.3); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.3); }
+            70% { transform: scale(1); }
+        }
+
+        .balloons {
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 3em;
+            animation: balloonFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes balloonFloat {
+            0%, 100% { transform: translateX(-50%) translateY(0px); }
+            50% { transform: translateX(-50%) translateY(-20px); }
+        }
+
+        .surprise-btn {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            opacity: 0;
+            animation: fadeInUp 2s ease 4s forwards;
+        }
+
+        .surprise-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .fireworks {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .firework {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            animation: explode 1s ease-out forwards;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(20);
+                opacity: 0;
+            }
+        }
+
+        .confetti {
+            position: fixed;
+            top: -10px;
+            width: 10px;
+            height: 10px;
+            background: #ff6b6b;
+            animation: confettiFall 3s linear infinite;
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        .music-note {
+            position: absolute;
+            font-size: 1.5em;
+            color: #9b59b6;
+            animation: musicFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes musicFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(180deg); }
+        }
+
+        /* Photo Gallery Styles */
+        .photo-gallery {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .photo-gallery.show {
+            display: block;
+            opacity: 1;
+        }
+
+        .gallery-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 2em;
+            color: white;
+            cursor: pointer;
+            z-index: 2001;
+            background: rgba(255, 255, 255, 0.2);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+
+        .gallery-close:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .draggable-photo {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 15px;
+            border: 3px solid white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            cursor: move;
+            transition: transform 0.3s ease;
+            background-color: #ff6b6b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            text-align: center;
+            user-select: none;
+        }
+
+        .draggable-photo:hover {
+            transform: scale(1.1);
+            z-index: 1000;
+        }
+
+        .draggable-photo.dragging {
+            transform: rotate(5deg) scale(1.1);
+            z-index: 1001;
+        }
+
+        /* Photo Modal Styles */
+        .photo-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 3000;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .photo-modal.show {
+            display: flex;
+            opacity: 1;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 80%;
+            max-height: 80%;
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: modalZoom 0.3s ease;
+        }
+
+        @keyframes modalZoom {
+            from {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            width: 40px;
+            height: 40px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+            z-index: 3001;
+        }
+
+        .modal-close:hover {
+            background: #c0392b;
+            transform: scale(1.1);
+        }
+
+        .modal-photo {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5em;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 15px;
+        }
+
+        .modal-caption {
+            text-align: center;
+            font-size: 1.2em;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        /* Floating Text Styles */
+        .floating-text {
+            position: fixed;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            pointer-events: none;
+            z-index: 1500;
+            animation: floatText 4s ease-in-out infinite;
+        }
+
+        @keyframes floatText {
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0.8;
+            }
+            50% { 
+                transform: translateY(-30px) rotate(5deg);
+                opacity: 1;
+            }
+        }
+
+        .floating-text:nth-child(even) {
+            animation-direction: reverse;
+        }
+    </style>
+</head>
+<body>
+    <!-- Envelope Splash Screen -->
+    <div class="envelope-screen" id="envelopeScreen">
+        <div class="envelope" id="envelope" onclick="openEnvelope()">
+            <div class="envelope-base"></div>
+            <div class="envelope-flap"></div>
+            <div class="envelope-letter">
+                <h2>💌 For Shaishai 💌</h2>
+                <p>A special birthday message awaits you inside...</p>
+                <p>Click to open! ✨</p>
+            </div>
+            <div class="click-instruction">Click the envelope to open! 💕</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="container">
+            <div class="card">
+                <div class="balloons">🎈🎈🎈</div>
+                <h1 class="title">Happy Birthday!</h1>
+                <h2 class="subtitle">To My Love! 💖</h2>
+                <div class="message">
+                    <br>
+                    <br>
+                    <p>Today is your special day, and I want you to know how incredibly lucky I am to have you in my life. Thank you for lightening my dark days. Thank you for making me feel important. I love you, Shaishai. </p>
+                    <br>
+                    <p>Love, Deej</p>
+                   
+                </div>
+                <div class="hearts">
+                    <span class="heart">💕</span>
+                    <span class="heart">💖</span>
+                    <span class="heart">💕</span>
+                </div>
+                <button class="surprise-btn" onclick="createSurprise()">Click for a Surprise! ✨</button>
+                
+                <div class="music-note" style="top: 10%; left: 10%;">🎵</div>
+                <div class="music-note" style="top: 20%; right: 15%; animation-delay: 1s;">🎶</div>
+                <div class="music-note" style="bottom: 30%; left: 20%; animation-delay: 2s;">🎵</div>
+            </div>
+        </div>
+
+        <div class="fireworks" id="fireworksContainer"></div>
+
+        <!-- Photo Gallery -->
+        <div class="photo-gallery" id="photoGallery">
+            <div class="gallery-close" onclick="closeGallery()">×</div>
+        </div>
+
+        <!-- Photo Modal -->
+        <div class="photo-modal" id="photoModal">
+            <div class="modal-content">
+                <button class="modal-close" onclick="closeModal()">×</button>
+                <div class="modal-photo" id="modalPhoto"></div>
+                <div class="modal-caption" id="modalCaption"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isDragging = false;
+        let dragElement = null;
+        let dragOffset = { x: 0, y: 0 };
+        let clickStartTime = 0;
+        let dragStarted = false;
+
+        function openEnvelope() {
+            const envelope = document.getElementById('envelope');
+            const envelopeScreen = document.getElementById('envelopeScreen');
+            const mainContent = document.getElementById('mainContent');
+            
+            // Add open class to envelope
+            envelope.classList.add('open');
+            
+            // Hide envelope screen and show main content after animation
+            setTimeout(() => {
+                envelopeScreen.classList.add('hide');
+                mainContent.classList.add('show');
+            }, 1200);
+        }
+
+        function createSurprise() {
+            // Create fireworks
+            createFireworks();
+            
+            // Create confetti
+            createConfetti();
+            
+            // Show photo gallery
+            setTimeout(() => {
+                showPhotoGallery();
+            }, 500);
+        }
+
+        function showPhotoGallery() {
+            const gallery = document.getElementById('photoGallery');
+            gallery.classList.add('show');
+            
+            // Create 6 draggable photos
+            createDraggablePhotos();
+            
+            // Create floating text messages
+            createFloatingTexts();
+        }
+
+        function closeGallery() {
+            const gallery = document.getElementById('photoGallery');
+            gallery.classList.remove('show');
+            
+            // Clear existing photos and text
+            setTimeout(() => {
+                const photos = gallery.querySelectorAll('.draggable-photo');
+                const texts = document.querySelectorAll('.floating-text');
+                photos.forEach(photo => photo.remove());
+                texts.forEach(text => text.remove());
+            }, 500);
+        }
+
+        function createDraggablePhotos() {
+            const gallery = document.getElementById('photoGallery');
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#e74c3c'];
+            const photoTexts = [
+                '💕 Photo 1 💕',
+                '💖 Photo 2 💖', 
+                '💕 Photo 3 💕',
+                '💖 Photo 4 💖',
+                '💕 Photo 5 💕',
+                '💖 Photo 6 💖'
+            ];
+            const captions = [
+                'Our Beautiful Memory 1 💕',
+                'Sweet Moments Together 💖',
+                'Forever in My Heart 💕',
+                'Love You Always 💖',
+                'My Favorite Person 💕',
+                'Happy Birthday My Love 💖'
+            ];
+
+            for (let i = 0; i < 6; i++) {
+                const photo = document.createElement('div');
+                photo.className = 'draggable-photo';
+                photo.style.backgroundColor = colors[i];
+                photo.innerHTML = photoTexts[i];
+                photo.dataset.photoIndex = i;
+                photo.dataset.caption = captions[i];
+                
+                // Random initial position
+                photo.style.left = Math.random() * (window.innerWidth - 150) + 'px';
+                photo.style.top = Math.random() * (window.innerHeight - 150) + 'px';
+                
+                // Add drag and click functionality
+                photo.addEventListener('mousedown', handleMouseDown);
+                photo.addEventListener('touchstart', handleTouchStart);
+                
+                gallery.appendChild(photo);
+                
+                // Animate in
+                setTimeout(() => {
+                    photo.style.animation = 'fadeInUp 0.5s ease forwards';
+                }, i * 200);
+            }
+        }
+
+        function handleMouseDown(e) {
+            e.preventDefault();
+            clickStartTime = Date.now();
+            dragStarted = false;
+            startDrag(e);
+        }
+
+        function handleTouchStart(e) {
+            e.preventDefault();
+            clickStartTime = Date.now();
+            dragStarted = false;
+            startDrag(e);
+        }
+
+        function startDrag(e) {
+            isDragging = true;
+            dragElement = e.target;
+            
+            const clientX = e.clientX || e.touches[0].clientX;
+            const clientY = e.clientY || e.touches[0].clientY;
+            const rect = dragElement.getBoundingClientRect();
+            
+            dragOffset.x = clientX - rect.left;
+            dragOffset.y = clientY - rect.top;
+            
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', stopDrag);
+            document.addEventListener('touchmove', drag);
+            document.addEventListener('touchend', stopDrag);
+        }
+
+        function drag(e) {
+            if (!isDragging || !dragElement) return;
+            
+            if (!dragStarted) {
+                const timeDiff = Date.now() - clickStartTime;
+                if (timeDiff > 100) { // Start dragging after 100ms
+                    dragStarted = true;
+                    dragElement.classList.add('dragging');
+                }
+            }
+            
+            if (dragStarted) {
+                const clientX = e.clientX || e.touches[0].clientX;
+                const clientY = e.clientY || e.touches[0].clientY;
+                
+                const newX = clientX - dragOffset.x;
+                const newY = clientY - dragOffset.y;
+                
+                // Boundary checking
+                const maxX = window.innerWidth - dragElement.offsetWidth;
+                const maxY = window.innerHeight - dragElement.offsetHeight;
+                
+                dragElement.style.left = Math.max(0, Math.min(newX, maxX)) + 'px';
+                dragElement.style.top = Math.max(0, Math.min(newY, maxY)) + 'px';
+            }
+        }
+
+        function stopDrag(e) {
+            if (dragElement) {
+                dragElement.classList.remove('dragging');
+                
+                // Check if it was a click (not a drag)
+                const timeDiff = Date.now() - clickStartTime;
+                if (!dragStarted && timeDiff < 300) {
+                    // It's a click, open photo modal
+                    openPhotoModal(dragElement);
+                }
+            }
+            
+            isDragging = false;
+            dragElement = null;
+            dragStarted = false;
+            
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('mouseup', stopDrag);
+            document.removeEventListener('touchmove', drag);
+            document.removeEventListener('touchend', stopDrag);
+        }
+
+        function openPhotoModal(photoElement) {
+            const modal = document.getElementById('photoModal');
+            const modalPhoto = document.getElementById('modalPhoto');
+            const modalCaption = document.getElementById('modalCaption');
+            
+            const photoIndex = photoElement.dataset.photoIndex;
+            const caption = photoElement.dataset.caption;
+            const backgroundColor = photoElement.style.backgroundColor;
+            
+            // Set modal content
+            modalPhoto.style.background = backgroundColor;
+            modalPhoto.innerHTML = `📸 Full View Photo ${parseInt(photoIndex) + 1} 📸`;
+            modalCaption.innerHTML = caption;
+            
+            // Show modal
+            modal.classList.add('show');
+            
+            // Add click outside to close
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('photoModal');
+            modal.classList.remove('show');
+        }
+
+        function createFloatingTexts() {
+            const messages = [
+                'Sana all baliw! 😜',
+                'Sana all birthday! 🎉',
+                'Sana all loved! 💕',
+                'Sana all happy! 😊',
+                'Sana all blessed! 🙏',
+                'Sana all pretty! ✨'
+            ];
+
+            messages.forEach((message, index) => {
+                setTimeout(() => {
+                    const text = document.createElement('div');
+                    text.className = 'floating-text';
+                    text.innerHTML = message;
+                    text.style.left = Math.random() * (window.innerWidth - 200) + 'px';
+                    text.style.top = Math.random() * (window.innerHeight - 100) + 'px';
+                    text.style.animationDelay = (index * 0.5) + 's';
+                    
+                    document.body.appendChild(text);
+                    
+                    // Remove after animation
+                    setTimeout(() => {
+                        if (text.parentNode) {
+                            text.remove();
+                        }
+                    }, 8000);
+                }, index * 1000);
+            });
+        }
+
+        function createFireworks() {
+            const container = document.getElementById('fireworksContainer');
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#e74c3c', '#9b59b6'];
+            
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const firework = document.createElement('div');
+                    firework.className = 'firework';
+                    firework.style.left = Math.random() * 100 + '%';
+                    firework.style.top = Math.random() * 100 + '%';
+                    firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    container.appendChild(firework);
+                    
+                    setTimeout(() => {
+                        container.removeChild(firework);
+                    }, 1000);
+                }, i * 200);
+            }
+        }
+
+        function createConfetti() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#e74c3c', '#9b59b6'];
+            
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = Math.random() * 3 + 's';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => {
+                        document.body.removeChild(confetti);
+                    }, 3000);
+                }, i * 100);
+            }
+        }
+
+        // Auto-create some ambient effects (only after envelope is opened)
+        setTimeout(() => {
+            setInterval(createConfetti, 10000);
+            
+            // Create floating hearts periodically
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.innerHTML = '💖';
+                heart.style.position = 'fixed';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.top = '100%';
+                heart.style.fontSize = '2em';
+                heart.style.animation = 'confettiFall 4s linear forwards';
+                heart.style.pointerEvents = 'none';
+                heart.style.zIndex = '999';
+                document.body.appendChild(heart);
+                
+                setTimeout(() => {
+                    document.body.removeChild(heart);
+                }, 4000);
+            }, 5000);
+        }, 3000);
+    </script>
+</body>
+</html>
