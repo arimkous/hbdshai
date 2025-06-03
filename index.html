@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+            background: linear-gradient(45deg, #ffb6c1, #ffc0cb, #ffb3d9, #ffd1dc, #ffccdd);
             background-size: 400% 400%;
             animation: gradientShift 8s ease infinite;
             min-height: 100vh;
@@ -26,24 +26,67 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Envelope Splash Screen */
+        /* Enhanced Envelope Splash Screen */
         .envelope-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ffb6c1 0%, #ffc0cb 100%);
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 9999;
             transition: opacity 1s ease, visibility 1s ease;
+            overflow: hidden;
         }
 
         .envelope-screen.hide {
             opacity: 0;
             visibility: hidden;
+        }
+
+        /* Floating Hearts in Background */
+        .splash-heart {
+            position: absolute;
+            font-size: 2em;
+            color: rgba(255, 255, 255, 0.3);
+            animation: floatHeart 6s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes floatHeart {
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0.3;
+            }
+            50% { 
+                transform: translateY(-30px) rotate(15deg);
+                opacity: 0.7;
+            }
+        }
+
+        /* Title Animation */
+        .splash-title {
+            font-size: 2.5em;
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { 
+                text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+                transform: scale(1);
+            }
+            50% { 
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 3px 3px 6px rgba(0, 0, 0, 0.3);
+                transform: scale(1.02);
+            }
         }
 
         .envelope {
@@ -52,11 +95,13 @@
             height: 200px;
             cursor: pointer;
             transform: scale(1);
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
         }
 
         .envelope:hover {
             transform: scale(1.05);
+            filter: brightness(1.1);
         }
 
         .envelope-base {
@@ -64,10 +109,10 @@
             bottom: 0;
             width: 100%;
             height: 140px;
-            background: #f4f4f4;
-            border: 3px solid #ddd;
+            background: linear-gradient(45deg, #ffe4e1, #fff0f5);
+            border: 3px solid #ffb6c1;
             border-radius: 5px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
         }
 
         .envelope-flap {
@@ -79,7 +124,7 @@
             height: 0;
             border-left: 153px solid transparent;
             border-right: 153px solid transparent;
-            border-top: 100px solid #e74c3c;
+            border-top: 100px solid #ff91a4;
             transform-origin: bottom;
             transition: transform 0.8s ease;
             z-index: 2;
@@ -98,7 +143,7 @@
             height: 0;
             border-left: 153px solid transparent;
             border-right: 153px solid transparent;
-            border-bottom: 100px solid #c0392b;
+            border-bottom: 100px solid #ffb6c1;
         }
 
         .envelope-letter {
@@ -107,9 +152,9 @@
             left: 20px;
             width: calc(100% - 40px);
             height: calc(100% - 40px);
-            background: white;
+            background: linear-gradient(45deg, #ffffff, #fff0f5);
             border-radius: 3px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -126,7 +171,7 @@
         }
 
         .envelope-letter h2 {
-            color: #e74c3c;
+            color: #ff69b4;
             font-size: 1.5em;
             margin-bottom: 10px;
             animation: pulse 2s infinite;
@@ -144,20 +189,38 @@
         }
 
         .click-instruction {
-            position: absolute;
-            bottom: -80px;
-            left: 50%;
-            transform: translateX(-50%);
             color: white;
-            font-size: 1.1em;
+            font-size: 1.2em;
             animation: bounce 2s infinite;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-top: 20px;
         }
 
         @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-            40% { transform: translateX(-50%) translateY(-10px); }
-            60% { transform: translateX(-50%) translateY(-5px); }
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        /* Sparkles Effect */
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            animation: sparkleAnimation 2s ease-in-out infinite;
+        }
+
+        @keyframes sparkleAnimation {
+            0%, 100% { 
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% { 
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         /* Main Content */
@@ -184,11 +247,12 @@
             background: rgba(255, 255, 255, 0.95);
             padding: 40px;
             border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 40px rgba(255, 182, 193, 0.3);
             text-align: center;
             max-width: 600px;
             position: relative;
             animation: cardFloat 6s ease-in-out infinite;
+            border: 2px solid #ffb6c1;
         }
 
         @keyframes cardFloat {
@@ -198,10 +262,10 @@
 
         .title {
             font-size: 3.5em;
-            color: #e74c3c;
+            color: #ff69b4;
             margin-bottom: 20px;
             animation: bounceTitle 2s infinite;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.3);
         }
 
         @keyframes bounceTitle {
@@ -212,7 +276,7 @@
 
         .subtitle {
             font-size: 1.8em;
-            color: #2c3e50;
+            color: #ff1493;
             margin-bottom: 30px;
             opacity: 0;
             animation: fadeInUp 2s ease 1s forwards;
@@ -220,7 +284,7 @@
 
         .message {
             font-size: 1.2em;
-            color: #34495e;
+            color: #d1477a;
             line-height: 1.6;
             margin-bottom: 30px;
             opacity: 0;
@@ -246,7 +310,7 @@
         }
 
         .heart {
-            color: #e74c3c;
+            color: #ff69b4;
             display: inline-block;
             animation: heartbeat 1.5s ease-in-out infinite;
             margin: 0 10px;
@@ -275,7 +339,7 @@
         }
 
         .surprise-btn {
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            background: linear-gradient(45deg, #ffb6c1, #ffc0cb);
             color: white;
             border: none;
             padding: 15px 30px;
@@ -286,11 +350,12 @@
             margin-top: 20px;
             opacity: 0;
             animation: fadeInUp 2s ease 4s forwards;
+            box-shadow: 0 5px 15px rgba(255, 182, 193, 0.3);
         }
 
         .surprise-btn:hover {
             transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 20px rgba(255, 182, 193, 0.5);
         }
 
         .fireworks {
@@ -327,7 +392,7 @@
             top: -10px;
             width: 10px;
             height: 10px;
-            background: #ff6b6b;
+            background: #ffb6c1;
             animation: confettiFall 3s linear infinite;
         }
 
@@ -337,26 +402,108 @@
             }
         }
 
-        .music-note {
+        /* Falling Emojis */
+        .falling-emoji {
+            position: fixed;
+            top: -50px;
+            font-size: 2em;
+            pointer-events: none;
+            z-index: 900;
+            animation: emojiRain 6s linear infinite;
+        }
+
+        @keyframes emojiRain {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Frog and Lily Pad Animation */
+        .frog-container {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            animation: frogJump 4s ease-in-out infinite;
+        }
+
+        .frog {
+            font-size: 1.5em;
+            z-index: 2;
+            position: relative;
+            animation: frogBounce 2s ease-in-out infinite;
+        }
+
+        .lily-pad {
+            font-size: 2em;
+            position: absolute;
+            bottom: 0;
+            z-index: 1;
+            animation: lilyFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes frogJump {
+            0%, 100% { 
+                transform: translateY(0px);
+            }
+            50% { 
+                transform: translateY(-15px);
+            }
+        }
+
+        @keyframes frogBounce {
+            0%, 100% { 
+                transform: translateY(0px) scale(1);
+            }
+            25% { 
+                transform: translateY(-8px) scale(1.1);
+            }
+            50% { 
+                transform: translateY(-5px) scale(1.05);
+            }
+            75% { 
+                transform: translateY(-3px) scale(1.02);
+            }
+        }
+
+        @keyframes lilyFloat {
+            0%, 100% { 
+                transform: rotate(0deg);
+            }
+            50% { 
+                transform: rotate(2deg);
+            }
+        }
+
+        /* Gumamela Flower Animation */
+        .gumamela {
             position: absolute;
             font-size: 1.5em;
-            color: #9b59b6;
-            animation: musicFloat 3s ease-in-out infinite;
+            animation: gumamelaBloom 3s ease-in-out infinite;
         }
 
-        @keyframes musicFloat {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-30px) rotate(180deg); }
+        @keyframes gumamelaBloom {
+            0%, 100% { 
+                transform: scale(1) rotate(0deg);
+                opacity: 0.8;
+            }
+            50% { 
+                transform: scale(1.1) rotate(5deg);
+                opacity: 1;
+            }
         }
 
-        /* Photo Gallery Styles */
         .photo-gallery {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(255, 182, 193, 0.8);
             z-index: 2000;
             display: none;
             opacity: 0;
@@ -396,10 +543,12 @@
             height: 150px;
             border-radius: 15px;
             border: 3px solid white;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 30px rgba(255, 182, 193, 0.5);
             cursor: move;
             transition: transform 0.3s ease;
-            background-color: #ff6b6b;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -407,6 +556,7 @@
             font-size: 14px;
             text-align: center;
             user-select: none;
+            overflow: hidden;
         }
 
         .draggable-photo:hover {
@@ -419,14 +569,13 @@
             z-index: 1001;
         }
 
-        /* Photo Modal Styles */
         .photo-modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.95);
+            background: rgba(255, 182, 193, 0.95);
             z-index: 3000;
             display: none;
             opacity: 0;
@@ -442,13 +591,17 @@
 
         .modal-content {
             position: relative;
-            max-width: 80%;
-            max-height: 80%;
+            max-width: 90%;
+            max-height: 90%;
             background: white;
             border-radius: 20px;
             padding: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 20px 60px rgba(255, 182, 193, 0.5);
             animation: modalZoom 0.3s ease;
+            border: 2px solid #ffb6c1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         @keyframes modalZoom {
@@ -468,7 +621,7 @@
             right: -15px;
             width: 40px;
             height: 40px;
-            background: #e74c3c;
+            background: #ff69b4;
             color: white;
             border: none;
             border-radius: 50%;
@@ -482,39 +635,35 @@
         }
 
         .modal-close:hover {
-            background: #c0392b;
+            background: #ff91a4;
             transform: scale(1.1);
         }
 
         .modal-photo {
-            width: 100%;
-            height: 400px;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            max-width: 100%;
+            max-height: 70vh;
+            width: auto;
+            height: auto;
             border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5em;
-            font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
             margin-bottom: 15px;
+            object-fit: contain;
+            box-shadow: 0 10px 30px rgba(255, 182, 193, 0.3);
         }
 
         .modal-caption {
             text-align: center;
             font-size: 1.2em;
-            color: #2c3e50;
+            color: #ff1493;
             font-weight: bold;
+            margin-top: 10px;
         }
 
-        /* Floating Text Styles */
         .floating-text {
             position: fixed;
             font-size: 1.5em;
             font-weight: bold;
             color: white;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
             pointer-events: none;
             z-index: 1500;
             animation: floatText 4s ease-in-out infinite;
@@ -537,18 +686,20 @@
     </style>
 </head>
 <body>
-    <!-- Envelope Splash Screen -->
+    <!-- Enhanced Envelope Splash Screen -->
     <div class="envelope-screen" id="envelopeScreen">
+        <h1 class="splash-title">Special Delivery ✨</h1>
+        
         <div class="envelope" id="envelope" onclick="openEnvelope()">
             <div class="envelope-base"></div>
             <div class="envelope-flap"></div>
             <div class="envelope-letter">
-                <h2>💌 For Shaishai 💌</h2>
-                <p>A special birthday message awaits you inside...</p>
-                <p>Click to open! ✨</p>
+                <h2>💌 For Shai 💌</h2>
+                <p>Click mo to!✨</p>
             </div>
-            <div class="click-instruction">Click the envelope to open! 💕</div>
         </div>
+        
+        <div class="click-instruction"></div>
     </div>
 
     <!-- Main Content -->
@@ -559,38 +710,39 @@
                 <h1 class="title">Happy Birthday!</h1>
                 <h2 class="subtitle">To My Love! 💖</h2>
                 <div class="message">
-                    <br>
-                    <br>
-                    <p>Today is your special day, and I want you to know how incredibly lucky I am to have you in my life. Thank you for lightening my dark days. Thank you for making me feel important. I love you, Shaishai. </p>
+                    <p>Today is your special day, and I want you to know how incredibly lucky I am to have you in my life. Thank you for lightening my dark days. Thank you for making me feel important. I love you, Shaishai.</p>
                     <br>
                     <p>Love, Deej</p>
-                   
                 </div>
                 <div class="hearts">
                     <span class="heart">💕</span>
                     <span class="heart">💖</span>
                     <span class="heart">💕</span>
                 </div>
-                <button class="surprise-btn" onclick="createSurprise()">Click for a Surprise! ✨</button>
+                <button class="surprise-btn" onclick="createSurprise()">Pindutin mo ngani✨</button>
                 
-                <div class="music-note" style="top: 10%; left: 10%;">🎵</div>
-                <div class="music-note" style="top: 20%; right: 15%; animation-delay: 1s;">🎶</div>
-                <div class="music-note" style="bottom: 30%; left: 20%; animation-delay: 2s;">🎵</div>
+                <div class="frog-container" style="top: 10%; left: 10%;">
+                    <div class="frog">🐸</div>
+                    <div class="lily-pad">🪷</div>
+                </div>
+                <div class="gumamela" style="top: 20%; right: 15%; animation-delay: 1s;">🌺</div>
+                <div class="frog-container" style="bottom: 30%; left: 20%; animation-delay: 2s;">
+                    <div class="frog">🐸</div>
+                    <div class="lily-pad">🪷</div>
+                </div>
             </div>
         </div>
 
         <div class="fireworks" id="fireworksContainer"></div>
 
-        <!-- Photo Gallery -->
         <div class="photo-gallery" id="photoGallery">
             <div class="gallery-close" onclick="closeGallery()">×</div>
         </div>
 
-        <!-- Photo Modal -->
         <div class="photo-modal" id="photoModal">
             <div class="modal-content">
                 <button class="modal-close" onclick="closeModal()">×</button>
-                <div class="modal-photo" id="modalPhoto"></div>
+                <img class="modal-photo" id="modalPhoto" />
                 <div class="modal-caption" id="modalCaption"></div>
             </div>
         </div>
@@ -603,29 +755,50 @@
         let clickStartTime = 0;
         let dragStarted = false;
 
+        // Create animated background effects for splash screen
+        function createSplashEffects() {
+            const splashScreen = document.getElementById('envelopeScreen');
+            
+            // Create floating hearts
+            for (let i = 0; i < 8; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'splash-heart';
+                heart.innerHTML = '💖';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.top = Math.random() * 100 + '%';
+                heart.style.animationDelay = (i * 0.8) + 's';
+                splashScreen.appendChild(heart);
+            }
+
+            // Create sparkles
+            for (let i = 0; i < 15; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                sparkle.style.animationDelay = Math.random() * 2 + 's';
+                splashScreen.appendChild(sparkle);
+            }
+        }
+
         function openEnvelope() {
             const envelope = document.getElementById('envelope');
             const envelopeScreen = document.getElementById('envelopeScreen');
             const mainContent = document.getElementById('mainContent');
             
-            // Add open class to envelope
             envelope.classList.add('open');
             
-            // Hide envelope screen and show main content after animation
             setTimeout(() => {
                 envelopeScreen.classList.add('hide');
                 mainContent.classList.add('show');
+                // Start falling emojis after main content is shown
+                createFallingEmojis();
             }, 1200);
         }
 
         function createSurprise() {
-            // Create fireworks
             createFireworks();
-            
-            // Create confetti
             createConfetti();
-            
-            // Show photo gallery
             setTimeout(() => {
                 showPhotoGallery();
             }, 500);
@@ -634,11 +807,7 @@
         function showPhotoGallery() {
             const gallery = document.getElementById('photoGallery');
             gallery.classList.add('show');
-            
-            // Create 6 draggable photos
             createDraggablePhotos();
-            
-            // Create floating text messages
             createFloatingTexts();
         }
 
@@ -646,7 +815,6 @@
             const gallery = document.getElementById('photoGallery');
             gallery.classList.remove('show');
             
-            // Clear existing photos and text
             setTimeout(() => {
                 const photos = gallery.querySelectorAll('.draggable-photo');
                 const texts = document.querySelectorAll('.floating-text');
@@ -657,43 +825,35 @@
 
         function createDraggablePhotos() {
             const gallery = document.getElementById('photoGallery');
-            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#e74c3c'];
-            const photoTexts = [
-                '💕 Photo 1 💕',
-                '💖 Photo 2 💖', 
-                '💕 Photo 3 💕',
-                '💖 Photo 4 💖',
-                '💕 Photo 5 💕',
-                '💖 Photo 6 💖'
+            const photoImages = [
+                'shai1.jpeg',
+                'shai2.jpeg',
+                'shai3.jpeg',
+                'shai4.jpeg'
             ];
             const captions = [
                 'Our Beautiful Memory 1 💕',
                 'Sweet Moments Together 💖',
                 'Forever in My Heart 💕',
-                'Love You Always 💖',
-                'My Favorite Person 💕',
-                'Happy Birthday My Love 💖'
+                'Solid Quiboloy since day 1'
             ];
 
-            for (let i = 0; i < 6; i++) {
+            for (let i = 0; i < 4; i++) {
                 const photo = document.createElement('div');
                 photo.className = 'draggable-photo';
-                photo.style.backgroundColor = colors[i];
-                photo.innerHTML = photoTexts[i];
+                photo.style.backgroundImage = `url('${photoImages[i]}')`;
                 photo.dataset.photoIndex = i;
                 photo.dataset.caption = captions[i];
+                photo.dataset.imageUrl = photoImages[i];
                 
-                // Random initial position
                 photo.style.left = Math.random() * (window.innerWidth - 150) + 'px';
                 photo.style.top = Math.random() * (window.innerHeight - 150) + 'px';
                 
-                // Add drag and click functionality
                 photo.addEventListener('mousedown', handleMouseDown);
                 photo.addEventListener('touchstart', handleTouchStart);
                 
                 gallery.appendChild(photo);
                 
-                // Animate in
                 setTimeout(() => {
                     photo.style.animation = 'fadeInUp 0.5s ease forwards';
                 }, i * 200);
@@ -736,7 +896,7 @@
             
             if (!dragStarted) {
                 const timeDiff = Date.now() - clickStartTime;
-                if (timeDiff > 100) { // Start dragging after 100ms
+                if (timeDiff > 100) {
                     dragStarted = true;
                     dragElement.classList.add('dragging');
                 }
@@ -749,7 +909,6 @@
                 const newX = clientX - dragOffset.x;
                 const newY = clientY - dragOffset.y;
                 
-                // Boundary checking
                 const maxX = window.innerWidth - dragElement.offsetWidth;
                 const maxY = window.innerHeight - dragElement.offsetHeight;
                 
@@ -762,10 +921,8 @@
             if (dragElement) {
                 dragElement.classList.remove('dragging');
                 
-                // Check if it was a click (not a drag)
                 const timeDiff = Date.now() - clickStartTime;
                 if (!dragStarted && timeDiff < 300) {
-                    // It's a click, open photo modal
                     openPhotoModal(dragElement);
                 }
             }
@@ -787,17 +944,15 @@
             
             const photoIndex = photoElement.dataset.photoIndex;
             const caption = photoElement.dataset.caption;
-            const backgroundColor = photoElement.style.backgroundColor;
+            const imageUrl = photoElement.dataset.imageUrl;
             
-            // Set modal content
-            modalPhoto.style.background = backgroundColor;
-            modalPhoto.innerHTML = `📸 Full View Photo ${parseInt(photoIndex) + 1} 📸`;
+            // Use img element to show actual image at its natural size
+            modalPhoto.src = imageUrl;
+            modalPhoto.alt = caption;
             modalCaption.innerHTML = caption;
             
-            // Show modal
             modal.classList.add('show');
             
-            // Add click outside to close
             modal.addEventListener('click', function(e) {
                 if (e.target === modal) {
                     closeModal();
@@ -813,11 +968,11 @@
         function createFloatingTexts() {
             const messages = [
                 'Sana all baliw! 😜',
-                'Sana all birthday! 🎉',
-                'Sana all loved! 💕',
-                'Sana all happy! 😊',
-                'Sana all blessed! 🙏',
-                'Sana all pretty! ✨'
+                'Sana all suplada 😜',
+                'Sana all baliw! 😜',
+                'Sana all tampuhin',
+                'Sana all maligalig 😜',
+                'I love you, Shaishai! 💖',
             ];
 
             messages.forEach((message, index) => {
@@ -831,7 +986,6 @@
                     
                     document.body.appendChild(text);
                     
-                    // Remove after animation
                     setTimeout(() => {
                         if (text.parentNode) {
                             text.remove();
@@ -841,9 +995,32 @@
             });
         }
 
+        function createFallingEmojis() {
+            const emojis = ['🐸', '🍞', '🌺'];
+            
+            setInterval(() => {
+                // Create a random falling emoji
+                const emoji = document.createElement('div');
+                emoji.className = 'falling-emoji';
+                emoji.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+                emoji.style.left = Math.random() * 100 + '%';
+                emoji.style.animationDuration = (Math.random() * 3 + 3) + 's'; 
+                emoji.style.animationDelay = Math.random() * 2 + 's';
+                
+                document.body.appendChild(emoji);
+                
+                
+                setTimeout(() => {
+                    if (emoji.parentNode) {
+                        emoji.remove();
+                    }
+                }, 8000);
+            }, 1500); 
+        }
+
         function createFireworks() {
             const container = document.getElementById('fireworksContainer');
-            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#e74c3c', '#9b59b6'];
+            const colors = ['#ffb6c1', '#ffc0cb', '#ffb3d9', '#ffd1dc', '#ffccdd', '#ff91a4', '#ff69b4'];
             
             for (let i = 0; i < 15; i++) {
                 setTimeout(() => {
@@ -862,7 +1039,7 @@
         }
 
         function createConfetti() {
-            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#e74c3c', '#9b59b6'];
+            const colors = ['#ffb6c1', '#ffc0cb', '#ffb3d9', '#ffd1dc', '#ffccdd', '#ff91a4', '#ff69b4'];
             
             for (let i = 0; i < 50; i++) {
                 setTimeout(() => {
@@ -880,11 +1057,15 @@
             }
         }
 
-        // Auto-create some ambient effects (only after envelope is opened)
+        // Initialize splash screen effects
+        document.addEventListener('DOMContentLoaded', function() {
+            createSplashEffects();
+        });
+
+        // Auto-create ambient effects after envelope is opened
         setTimeout(() => {
             setInterval(createConfetti, 10000);
             
-            // Create floating hearts periodically
             setInterval(() => {
                 const heart = document.createElement('div');
                 heart.innerHTML = '💖';
